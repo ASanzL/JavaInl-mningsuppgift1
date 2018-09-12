@@ -18,15 +18,19 @@ public class Main {
                 System.out.print("Vill du att datorn ska spela också?(\"j\" för ja) ");
                 useComputer = scan.next().equals("j");
             }
+            if(useComputer){
+                numberOfPlayers++;
+            }
+            int[] scores = new int[numberOfPlayers];
+
             System.out.print("Välj antal kast: ");
             int rolls = scan.nextInt();
             scan.nextLine();
-            numberOfPlayers = (useComputer) ? numberOfPlayers+1 : numberOfPlayers;
-            int[] scores = new int[numberOfPlayers];
+
 
             //Gå igenom alla spelarna och kasta tärningarna
             for (int i = 0; i < scores.length; i++) {
-                boolean isComputer = useComputer && i == scores.length-1;
+                boolean isComputer = useComputer && (i == scores.length-1);
                 System.out.println(getNewPlayerText(isComputer, i));
                 for(int j = 0; j < rolls; j++) {
                     scores[i] += roll(isComputer);
@@ -63,10 +67,9 @@ public class Main {
 
     static void updateHighScore(int score){
         for(int i = 0; i < highScore.length; i++){
-            if(score > highScore[i])
-            {
+            if(score > highScore[i]){
                 //Flytta ned listan
-                for(int j = highScore.length-1; j > 0; j--){
+                for(int j = highScore.length-1; j > i; j--){
                     if(highScore[j] < highScore[j-1]){
                     highScore[j] = highScore[j-1];
                     }
@@ -113,10 +116,8 @@ public class Main {
     static int getWinner(int[] scores) {
         int highestScore = 0;
         int winner = 0;
-        for (int i = 0; i < scores.length; i++)
-        {
-            if(scores[i] > highestScore)
-            {
+        for (int i = 0; i < scores.length; i++){
+            if(scores[i] > highestScore){
                 winner = i;
                 highestScore = scores[i];
             }
